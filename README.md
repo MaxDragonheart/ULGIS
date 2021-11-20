@@ -1,4 +1,4 @@
-# ULGISD - Ubuntu Lib GIS Docker
+# ULGIS - Ubuntu Lib GIS 
 
 ---
 
