@@ -1,0 +1,8 @@
+# IDE files and folder
+.idea
+
+# DB
+db.sqlite3
+
+# Python files and folder
+env
