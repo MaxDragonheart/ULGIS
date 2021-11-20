@@ -1,4 +1,6 @@
-# ULGIS - Ubuntu Lib GIS 
+# ULGIS - Ubuntu Lib GIS alpha
+
+## Docker images useful for GeoDjango project
 
 ---
 
