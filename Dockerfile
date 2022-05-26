@@ -12,7 +12,8 @@ RUN apt-get update -y && apt-get upgrade -y && apt-get -y autoremove
 RUN apt-get install -y \
     nano \
     unzip \
-    wget
+    wget \
+    curl
 RUN mkdir "home/app"
 WORKDIR "home/app"
 
