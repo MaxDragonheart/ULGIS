@@ -3,34 +3,37 @@
 # Official Ubuntu Image as Layer
 FROM ubuntu:20.04 as os
 # LABEL about the custom image
-LABEL maintainer="info@massimilianomoraca.it"
-LABEL version="0.1"
-LABEL description="Image for Django projects."
+LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
 # Disable Prompt During Packages Installation
 ARG DEBIAN_FRONTEND=noninteractive
 # Update&Upgrade Ubuntu
-RUN apt update && apt upgrade -y
-#CMD ["pwd"]
+RUN apt-get update -y && apt-get upgrade -y && apt-get -y autoremove
+# Install useful packages
+RUN apt-get install -y \
+    nano \
+    unzip \
+    wget
+RUN mkdir "home/app"
+WORKDIR "home/app"
 
 # OS as Layer
 FROM os as gis-os
-# Disable Prompt During Packages Installation
-ARG DEBIAN_FRONTEND=noninteractive
 # Set Python environment variables
 # Prevents Python from writing pyc files to disc
 ENV PYTHONDONTWRITEBYTECODE 1
 # Prevents Python from buffering stdout and stderr
 ENV PYTHONUNBUFFERED 1
 # Install python and upgrade pip
-RUN apt install -y python3-pip build-essential
+RUN apt-get install -y python3-pip build-essential
 RUN pip3 install --upgrade pip
 # Installing Geospatial libraries
-RUN apt install -y libpq-dev \
+RUN apt-get install -y \
+    libpq-dev \
 # Install PROJ
-    libproj-dev proj-data proj-bin unzip \
+   libproj-dev proj-data proj-bin \
 # Install GEOS
-    libgeos-dev \
+    libgeos-dev
 # Install GDAL
-    tzdata \
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y tzdata \
     libgdal-dev python3-gdal gdal-bin
 #CMD ["gdalinfo", "--version"]
