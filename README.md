@@ -1,14 +1,11 @@
-# ULGIS - Ubuntu Lib GIS alpha
-
-### Docker images useful for a GIS project
-
+# ULGIS - Ubuntu Lib GIS
+Docker images useful for a GIS project
 ---
+## GIS Libraries
+- ProJ | [ref](https://proj.org/index.html)
+- GEOS | [ref](https://libgeos.org/)
+- GDAL | [ref](https://gdal.org/index.html)
+
 ## Docker Hub
+ULGIS | [clickme!](https://hub.docker.com/r/maxdragonheart/ulgis)
 
-ULGIS -> [clickme!](https://hub.docker.com/r/gisconsultant/ulgis)
-
-## Manage
-
-Build: `docker build -t LAYER-NAME .`
-
-Run and access to container: `sudo docker run -it LAYER-NAME` 
