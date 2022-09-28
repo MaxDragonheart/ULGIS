@@ -1,5 +1,9 @@
 # Docker Hub
 
+## Login to Docker Hub
+
+`docker login`
+
 ## Push new images
 
 Build: `docker build -t maxdragonheart/ulgis:<TAG> .`
