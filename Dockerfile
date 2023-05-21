@@ -25,8 +25,17 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Prevents Python from buffering stdout and stderr
 ENV PYTHONUNBUFFERED 1
 # Install python and upgrade pip
-RUN apt-get install -y python3-pip build-essential
+RUN apt-get install -y  \
+    python3-pip  \
+    python3-venv \
+    python3-dev \
+    build-essential \
+    libssl-dev \
+    libffi-dev \
+    binutils
 RUN pip3 install --upgrade pip
+# Upgrade Python's packages
+RUN pip3 install --upgrade wheel
 # Installing Geospatial libraries
 RUN apt-get install -y \
     libpq-dev \
