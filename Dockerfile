@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Official Ubuntu Image as Layer
-FROM ubuntu:20.04 as os
+FROM ubuntu:22.04 as os
 # LABEL about the custom image
 LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
 # Disable Prompt During Packages Installation
@@ -37,4 +37,4 @@ RUN apt-get install -y \
 # Install GDAL
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y tzdata \
     libgdal-dev python3-gdal gdal-bin
-#CMD ["gdalinfo", "--version"]
+# CMD ["gdalinfo", "--version"]
