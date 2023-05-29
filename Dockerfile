@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Official Ubuntu Image as Layer
-FROM ubuntu:22.04 as os
+FROM ubuntu:kinetic as os
 # LABEL about the custom image
 LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
 # Disable Prompt During Packages Installation
