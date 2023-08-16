@@ -52,6 +52,7 @@ RUN aptitude install -y \
 RUN aptitude install -y \
     libgdal-dev  \
     python3-gdal  \
-    gdal-bin \
+    gdal-bin
+
 
 # CMD ["gdalinfo", "--version"]
