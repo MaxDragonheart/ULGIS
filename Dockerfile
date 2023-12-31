@@ -4,6 +4,7 @@
 FROM ubuntu:22.04 as os
 # LABEL about the custom image
 LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
+WORKDIR /app
 # Disable Prompt During Packages Installation
 ARG DEBIAN_FRONTEND=noninteractive
 # Update&Upgrade Ubuntu
@@ -15,8 +16,6 @@ RUN apt install -y \
     wget \
     curl \
     aptitude
-RUN mkdir "home/app"
-WORKDIR "home/app"
 
 # Manage tzdata
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
@@ -41,6 +40,7 @@ RUN aptitude install -y  \
 RUN pip3 install --upgrade pip
 # Upgrade Python's packages
 RUN pip3 install --upgrade wheel pillow setuptools
+RUN pip3 install poetry
 
 # Python OS as Layer
 FROM python-os as gis-os
