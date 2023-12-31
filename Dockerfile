@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
 RUN aptitude install -y tzdata
 
 # OS as Layer
-FROM os as gis-os
+FROM os as python-os
 # Set Python environment variables
 # Prevents Python from writing pyc files to disc
 ENV PYTHONDONTWRITEBYTECODE 1
@@ -40,7 +40,10 @@ RUN aptitude install -y  \
     binutils
 RUN pip3 install --upgrade pip
 # Upgrade Python's packages
-RUN pip3 install --upgrade wheel pillow
+RUN pip3 install --upgrade wheel pillow setuptools
+
+# Python OS as Layer
+FROM python-os as gis-os
 # Installing Geospatial libraries
 RUN aptitude install -y \
     libpq-dev \
