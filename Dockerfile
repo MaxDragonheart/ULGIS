@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 # Official Ubuntu Image as Layer
-FROM ubuntu:22.04 as os
+FROM ubuntu:22.04 AS os
 
 # LABEL about the custom image
 LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
@@ -28,14 +28,14 @@ ENV TZ=Etc/UTC
 RUN aptitude install -y tzdata
 
 # OS as Layer
-FROM os as python-os
+FROM os AS python-os
 
 # Set Python environment variables
 # Prevents Python from writing pyc files to disc
-ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONDONTWRITEBYTECODE=1
 
 # Prevents Python from buffering stdout and stderr
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 # Install python and upgrade pip
 RUN aptitude install -y  \
@@ -54,7 +54,7 @@ RUN pip3 install --upgrade wheel pillow setuptools
 RUN pip3 install poetry
 
 # Python OS as Layer
-FROM python-os as gis-os
+FROM python-os AS gis-os
 
 # Installing Geospatial libraries
 RUN aptitude install -y \
