@@ -31,8 +31,8 @@ The current Dockerfile is intentionally linear and easy to follow. It uses three
 
 Responsibilities:
 
-- Start from Docker Official Ubuntu tag `ubuntu:jammy-20260217`
-- Track Ubuntu point release `22.04.5` explicitly for ULGIS tagging
+- Start from Docker Official Ubuntu tag `ubuntu:noble-20260210.1`
+- Track Ubuntu point release `24.04.4` explicitly for ULGIS tagging
 - Install base utilities explicitly with `apt-get`
 - Install base utilities: `nano`, `unzip`, `wget`, `curl`, `tzdata`
 - Set the working directory to `/app`
@@ -92,10 +92,10 @@ Taken together, the history shows that ULGIS evolves mainly through Dockerfile m
 
 - Latest release tag: `ulgis22.04.03`
 - Current `master`: one commit ahead of that tag
-- Current Docker base tag in `Dockerfile`: `ubuntu:jammy-20260217`
-- Current tracked Ubuntu point release in `Dockerfile`: `22.04.5`
-- Next release example under the new policy: `ulgis22.04.5-r2026.1`
-- Optional alias tags may include `ulgis22.04` and `latest`
+- Current Docker base tag in `Dockerfile`: `ubuntu:noble-20260210.1`
+- Current tracked Ubuntu point release in `Dockerfile`: `24.04.4`
+- Next release example under the new policy: `ulgis24.04.4-r2026.1`
+- Optional alias tags may include `ulgis24.04` and `latest`
 
 ## CI and validation
 
@@ -124,7 +124,7 @@ bash scripts/smoke-test-image.sh maxdragonheart/ulgis:dev
 Validate a release tag against the current Dockerfile:
 
 ```bash
-bash scripts/validate-release-tag.sh ulgis22.04.5-r2026.1
+bash scripts/validate-release-tag.sh ulgis24.04.4-r2026.1
 ```
 
 Inspect the pinned Python tooling when a PR changes those defaults:
@@ -136,7 +136,7 @@ docker run --rm maxdragonheart/ulgis:dev bash -lc \
 
 ## Current tradeoffs and limitations
 
-- The Dockerfile no longer runs `apt upgrade`, and it now pins the Docker Official Ubuntu tag to `jammy-20260217`, but it still does not pin the base image by digest.
+- The Dockerfile no longer runs `apt upgrade`, and it now pins the Docker Official Ubuntu tag to `noble-20260210.1`, but it still does not pin the base image by digest.
 - Python packaging tools are pinned explicitly, but maintainers still need to update those versions intentionally when the toolchain changes.
 - CI smoke checks are intentionally small and do not replace deeper compatibility testing.
 - `.dockerignore` now focuses on files not needed in the current build context, but it should still be reviewed if the Dockerfile starts copying repository files.

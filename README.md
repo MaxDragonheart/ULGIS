@@ -4,7 +4,7 @@ ULGIS is a Docker-image project that packages a reusable Ubuntu environment with
 
 ## What the image includes
 
-- Ubuntu 22.04 LTS tracked through Docker Official tag `jammy-20260217` and Ubuntu point release `22.04.5`
+- Ubuntu 24.04 LTS tracked through Docker Official tag `noble-20260210.1` and Ubuntu point release `24.04.4`
 - Base utilities: `curl`, `wget`, `unzip`, `nano`, `tzdata`
 - Python tooling: `pip`, `venv`, development headers, and pinned `wheel`, `pillow`, `setuptools`, `poetry`
 - GIS stack: PROJ, GEOS, GDAL, `python3-gdal`, and supporting native packages
@@ -48,15 +48,15 @@ Early releases used generic tags such as `0.0.1` and `v.1.0.0`. Since the Ubuntu
 
 Those older tags remain valid historical releases. The current policy now separates:
 
-- the Docker Official Ubuntu base tag used in `Dockerfile`, currently `jammy-20260217`
-- the Ubuntu LTS point release tracked by ULGIS, currently `22.04.5`
-- the ULGIS release tag, for example `ulgis22.04.5-r2026.1`
+- the Docker Official Ubuntu base tag used in `Dockerfile`, currently `noble-20260210.1`
+- the Ubuntu LTS point release tracked by ULGIS, currently `24.04.4`
+- the ULGIS release tag, for example `ulgis24.04.4-r2026.1`
 
-Current release note: the latest historical tagged release is `ulgis22.04.03`, while the next planned release under the new policy is `ulgis22.04.5-r2026.1`.
+Current release note: the latest historical tagged release is `ulgis22.04.03`, while the next planned release under the new policy is `ulgis24.04.4-r2026.1`.
 
-Optional alias tags such as `ulgis22.04` and `latest` may still be published, but the full versioned release tag should remain the source of truth.
+Optional alias tags such as `ulgis24.04` and `latest` may still be published, but the full versioned release tag should remain the source of truth.
 
-The current Dockerfile also pins the Python packaging toolchain through build arguments so rebuilds stay more stable inside the `22.04` release family.
+The current Dockerfile also pins the Python packaging toolchain through build arguments so rebuilds stay more stable inside the `24.04` release family.
 
 ## Quick start
 

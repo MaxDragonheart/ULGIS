@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
 # Track the Docker Official Ubuntu tag separately from the Ubuntu LTS point release.
-ARG UBUNTU_BASE_TAG=jammy-20260217
-ARG UBUNTU_LTS_POINT_RELEASE=22.04.5
+ARG UBUNTU_BASE_TAG=noble-20260210.1
+ARG UBUNTU_LTS_POINT_RELEASE=24.04.4
 
 # Stage 1: operating-system baseline
 FROM ubuntu:${UBUNTU_BASE_TAG} AS os
@@ -55,8 +55,9 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip first, then install the rest of the pinned tooling.
-RUN python3 -m pip install --no-cache-dir --upgrade "pip==${PIP_VERSION}"
-RUN python3 -m pip install --no-cache-dir --upgrade \
+RUN python3 -m pip install --break-system-packages --ignore-installed --no-cache-dir "pip==${PIP_VERSION}"
+RUN python3 -m pip install --no-cache-dir --ignore-installed \
+        --break-system-packages \
         "wheel==${WHEEL_VERSION}" \
         "pillow==${PILLOW_VERSION}" \
         "setuptools==${SETUPTOOLS_VERSION}" \

@@ -16,8 +16,8 @@ docker build -t maxdragonheart/ulgis:dev .
 
 The Dockerfile now keeps two Ubuntu-related values explicit:
 
-- `UBUNTU_BASE_TAG`: the actual Docker Official Ubuntu tag used in `FROM`, currently `jammy-20260217`
-- `UBUNTU_LTS_POINT_RELEASE`: the Ubuntu LTS point release tracked by the ULGIS release tag, currently `22.04.5`
+- `UBUNTU_BASE_TAG`: the actual Docker Official Ubuntu tag used in `FROM`, currently `noble-20260210.1`
+- `UBUNTU_LTS_POINT_RELEASE`: the Ubuntu LTS point release tracked by the ULGIS release tag, currently `24.04.4`
 
 Use the Docker Official Ubuntu image page to confirm the current upstream tag policy and supported tags when you update `UBUNTU_BASE_TAG`:
 
@@ -33,24 +33,24 @@ bash scripts/smoke-test-image.sh maxdragonheart/ulgis:dev
 
 ## Tag a versioned image
 
-The current release family follows the Ubuntu LTS point release tracked in `Dockerfile`. With the current Dockerfile metadata, the next primary tag should be `ulgis22.04.5-r2026.1`.
+The current release family follows the Ubuntu LTS point release tracked in `Dockerfile`. With the current Dockerfile metadata, the next primary tag should be `ulgis24.04.4-r2026.1`.
 
 Example:
 
 ```bash
-docker tag maxdragonheart/ulgis:dev maxdragonheart/ulgis:ulgis22.04.5-r2026.1
+docker tag maxdragonheart/ulgis:dev maxdragonheart/ulgis:ulgis24.04.4-r2026.1
 ```
 
 Validate the tag format before pushing:
 
 ```bash
-bash scripts/validate-release-tag.sh ulgis22.04.5-r2026.1
+bash scripts/validate-release-tag.sh ulgis24.04.4-r2026.1
 ```
 
 ## Push the versioned image
 
 ```bash
-docker push maxdragonheart/ulgis:ulgis22.04.5-r2026.1
+docker push maxdragonheart/ulgis:ulgis24.04.4-r2026.1
 ```
 
 ## Optionally update the family alias
@@ -58,8 +58,8 @@ docker push maxdragonheart/ulgis:ulgis22.04.5-r2026.1
 If you want a moving alias for the current Ubuntu family:
 
 ```bash
-docker tag maxdragonheart/ulgis:ulgis22.04.5-r2026.1 maxdragonheart/ulgis:ulgis22.04
-docker push maxdragonheart/ulgis:ulgis22.04
+docker tag maxdragonheart/ulgis:ulgis24.04.4-r2026.1 maxdragonheart/ulgis:ulgis24.04
+docker push maxdragonheart/ulgis:ulgis24.04
 ```
 
 ## Optionally update `latest`
@@ -67,6 +67,6 @@ docker push maxdragonheart/ulgis:ulgis22.04
 Use `latest` only when you intentionally want that alias to point to the same image:
 
 ```bash
-docker tag maxdragonheart/ulgis:ulgis22.04.5-r2026.1 maxdragonheart/ulgis:latest
+docker tag maxdragonheart/ulgis:ulgis24.04.4-r2026.1 maxdragonheart/ulgis:latest
 docker push maxdragonheart/ulgis:latest
 ```
