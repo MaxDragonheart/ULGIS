@@ -1,8 +1,15 @@
-# IDE files and folder
+# VCS and editor metadata
+.git
+.github
 .idea
 
-# DB
-db.sqlite3
+# Repository documentation not needed in the build context
+docs
+README.md
+LICENSE
 
-# Python files and folder
-env
+# Local helper scripts are not copied into the image
+scripts
+
+# Local repository metadata
+.gitignore

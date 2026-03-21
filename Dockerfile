@@ -1,73 +1,81 @@
 # syntax=docker/dockerfile:1
 
-# Official Ubuntu Image as Layer
-FROM ubuntu:22.04 AS os
+# Track the Docker Official Ubuntu tag separately from the Ubuntu LTS point release.
+ARG UBUNTU_BASE_TAG=jammy-20260217
+ARG UBUNTU_LTS_POINT_RELEASE=22.04.5
 
-# LABEL about the custom image
-LABEL maintainer="Massimiliano Moraca <info@massimilianomoraca.it>"
+# Stage 1: operating-system baseline
+FROM ubuntu:${UBUNTU_BASE_TAG} AS os
 
-# Set work directory
+# Working directory used by downstream projects
 WORKDIR /app
 
-# Disable Prompt During Packages Installation
+# Disable interactive prompts during package installation
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Update&Upgrade Ubuntu
-RUN apt update -y && apt upgrade -y && apt -y autoremove
-
-# Install useful packages
-RUN apt install -y --no-install-recommends \
-    nano \
-    unzip \
-    wget \
-    curl \
-    aptitude
-
-# Manage tzdata
+# Keep timezone support explicit so the image stays predictable.
 ENV TZ=Etc/UTC
-RUN aptitude install -y tzdata
 
-# OS as Layer
+# Install only the base packages that ULGIS needs.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        curl \
+        nano \
+        tzdata \
+        unzip \
+        wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Stage 2: Python tooling baseline
 FROM os AS python-os
 
-# Set Python environment variables
-# Prevents Python from writing pyc files to disc
+# Prevent Python from writing pyc files to disk.
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Prevents Python from buffering stdout and stderr
+# Keep Python logs unbuffered for container usage.
 ENV PYTHONUNBUFFERED=1
 
-# Install python and upgrade pip
-RUN aptitude install -y  \
-    python3-pip  \
-    python3-venv \
-    python3-dev \
-    build-essential \
-    libssl-dev \
-    libffi-dev \
-    binutils
+# Pin Python packaging tools so rebuilds stay stable within a release family.
+ARG PIP_VERSION=26.0.1
+ARG WHEEL_VERSION=0.46.3
+ARG PILLOW_VERSION=12.1.1
+ARG SETUPTOOLS_VERSION=82.0.1
+ARG POETRY_VERSION=2.3.2
 
-RUN pip3 install --upgrade pip
+# Install Python build dependencies from Ubuntu packages.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        binutils \
+        build-essential \
+        libffi-dev \
+        libssl-dev \
+        python3-dev \
+        python3-pip \
+        python3-venv \
+    && rm -rf /var/lib/apt/lists/*
 
-# Upgrade Python's packages
-RUN pip3 install --upgrade wheel pillow setuptools
-RUN pip3 install poetry
+# Upgrade pip first, then install the rest of the pinned tooling.
+RUN python3 -m pip install --no-cache-dir --upgrade "pip==${PIP_VERSION}"
+RUN python3 -m pip install --no-cache-dir --upgrade \
+        "wheel==${WHEEL_VERSION}" \
+        "pillow==${PILLOW_VERSION}" \
+        "setuptools==${SETUPTOOLS_VERSION}" \
+        "poetry==${POETRY_VERSION}"
 
-# Python OS as Layer
+# Stage 3: GIS tooling baseline
 FROM python-os AS gis-os
 
-# Installing Geospatial libraries
-RUN aptitude install -y \
-    libpq-dev \
-# Install PROJ
-   libproj-dev proj-data proj-bin \
-# Install GEOS
-    libgeos-dev
+# Install the native GIS libraries required by downstream projects.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        gdal-bin \
+        libgdal-dev \
+        libgeos-dev \
+        libpq-dev \
+        libproj-dev \
+        proj-bin \
+        proj-data \
+        python3-gdal \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install GDAL
-RUN aptitude install -y \
-    libgdal-dev  \
-    python3-gdal  \
-    gdal-bin
-
-# CMD ["gdalinfo", "--version"]
+# This image stays command-free on purpose because it is a reusable base image.
